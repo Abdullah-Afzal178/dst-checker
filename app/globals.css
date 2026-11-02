@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+/*
+ * Station hall: paper white, black type, signal red, and a black departures
+ * board. Square corners and hairline rules, like a railway timetable.
+ */
+@theme inline {
+  --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-martian-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+@theme {
+  --color-paper: #f3f0e8;
+  --color-card: #fbfaf6;
+  --color-ink: #151515;
+  --color-graphite: #5d5952;
+  --color-rule: #d8d2c4;
+  --color-signal: #d42a20;
+  --color-signal-dark: #a81d15;
+  --color-board: #141414;
+  --color-board-line: #2c2c2c;
+  --color-flap: #f5c542;
+  --color-ahead: #e9b949;
+  --color-standard: #cfc8b8;
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/*
+ * Base resets belong in @layer base. An unlayered `a { color }` or
+ * `button { font }` outranks every Tailwind utility and silently kills text
+ * colours on links and font sizes on controls.
+ */
+@layer base {
+  a {
+    text-decoration: none;
+  }
+
+  ::selection {
+    background: var(--color-signal);
+    color: #fff;
+  }
+}
+
+/* The second clock's hands sweep from the old reading to the new one. */
+@keyframes swing {
+  from {
+    transform: rotate(var(--from));
+  }
+
+  to {
+    transform: rotate(var(--to));
+  }
+}
+
+.clock-hand {
+  transform-box: view-box;
+  transform-origin: 100px 100px;
+  transform: rotate(var(--to));
+}
+
+.clock-hand-swing {
+  animation: swing 1.8s cubic-bezier(0.65, 0, 0.25, 1) 0.5s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clock-hand-swing {
+    animation: none;
+  }
+}
